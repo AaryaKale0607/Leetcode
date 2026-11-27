@@ -1,0 +1,44 @@
+#include <bits/stdc++.h>
+using namespace std ;
+class Solution {
+public:
+    bool wordPattern(string pattern, string s) {
+        vector<string> words;
+        stringstream ss(s);
+        string word;
+
+        // Split string into words
+        while (ss >> word) {
+            words.push_back(word);
+        }
+
+        // Number of words must match pattern length
+        if (pattern.size() != words.size()) {
+            return false;
+        }
+
+        unordered_map<char, string> mp1;
+        unordered_map<string, char> mp2;
+
+        for (int i = 0; i < pattern.size(); i++) {
+
+            char ch = pattern[i];
+            string w = words[i];
+
+            // Check character-to-word mapping
+            if (mp1.count(ch) && mp1[ch] != w) {
+                return false;
+            }
+
+            // Check word-to-character mapping
+            if (mp2.count(w) && mp2[w] != ch) {
+                return false;
+            }
+
+            mp1[ch] = w;
+            mp2[w] = ch;
+        }
+
+        return true;
+    }
+};
